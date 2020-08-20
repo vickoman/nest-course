@@ -1,14 +1,18 @@
 import { Controller, Get, Param, Body, Post, Patch, Delete, Query } from '@nestjs/common';
+import { CooffeeService } from 'src/cooffe-service/cooffe.service';
 
 @Controller('coffees')
 export class CoffeesController {
+    constructor(
+        private readonly coffeeService: CooffeeService,
+    ) {}
     /**
      * Get all Coffees
      */
     @Get("")
     findAll(@Query() paginationQuery) {
-        const { limit, offset } = paginationQuery;
-        return `this action return all coffees Limit: ${limit} and Offset: ${offset}`;
+        // const { limit, offset } = paginationQuery;
+        return this.coffeeService.findAll();
     }
 
     /**
@@ -18,7 +22,7 @@ export class CoffeesController {
      */
     @Get(":id")
     findOne(@Param('id') id: string ) {
-        return `this action return #${id} coffee`;
+        return this.coffeeService.findOne(id);
     }
 
     /**
@@ -28,7 +32,7 @@ export class CoffeesController {
      */
     @Post()
     create(@Body() body) {
-        return body;
+        return this.coffeeService.create(body);
     }
 
     /**
@@ -39,7 +43,7 @@ export class CoffeesController {
      */
     @Patch(":id")
     update(@Param("id") id: string, @Body() body) {
-        return `this action updates #${id} coffee`;
+        return this.coffeeService.update(id, body);
     }
 
     /**
@@ -49,6 +53,6 @@ export class CoffeesController {
      */
     @Delete(":id")
     remove(@Param("id") id: string) {
-        return `this actions remove #${id} coffee`;
+        return this.coffeeService.remove(id);
     }
 }
