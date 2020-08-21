@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { Coffee } from 'src/coffees/entities/coffee.entity';
+import { CreateCoffeeDTO } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Injectable()
-export class CooffeeService {
-    private coffees: Coffee[] = [
-        {
-            id: 1,
-            name: "Shipwreck Roast",
-            brand: "Buddy Brew",
-            flavors: ["chocolate", "vanilla"],
-        },
-    ];
+export class CoffeeService {
+    private coffees: Coffee[] = [];
 
     findAll() {
         return this.coffees;
     }
 
     findOne(id: string) {
-        return this.coffees.find(item => item.id === +id)
+        const finded = this.coffees.find(item => item.id === +id);
+        if (!finded) {
+            return finded;
+        }
+        return finded;
     }
 
-    update(id: string, updateCoffeeDTO: any) {
+    update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
         const existing = this.findOne(id);
         if (existing) {
             // Update the existing entity
@@ -34,8 +33,9 @@ export class CooffeeService {
         }
     }
 
-    create(coffee:any) {
-        this.coffees.push(coffee);
+    create(coffee: CreateCoffeeDTO) {
+        const newCoffee = {id: Math.floor(Math.random() * 200), ...coffee };
+        this.coffees.push(newCoffee);
         return coffee;
     }
 

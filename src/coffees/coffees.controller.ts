@@ -1,16 +1,20 @@
 import { Controller, Get, Param, Body, Post, Patch, Delete, Query } from '@nestjs/common';
-import { CooffeeService } from 'src/cooffe-service/cooffe.service';
+import { CoffeeService } from 'src/coffees/coffees.service';
+import { CreateCoffeeDTO } from './dto/create-coffee.dto';
+import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 
 @Controller('coffees')
 export class CoffeesController {
     constructor(
-        private readonly coffeeService: CooffeeService,
+        private readonly coffeeService: CoffeeService,
     ) {}
     /**
      * Get all Coffees
      */
     @Get("")
-    findAll(@Query() paginationQuery) {
+    findAll(
+        // @Query() paginationQuery
+    ) {
         // const { limit, offset } = paginationQuery;
         return this.coffeeService.findAll();
     }
@@ -31,8 +35,8 @@ export class CoffeesController {
      * Create new Coffee
      */
     @Post()
-    create(@Body() body) {
-        return this.coffeeService.create(body);
+    create(@Body() createCoffeeDTO: CreateCoffeeDTO) {
+        return this.coffeeService.create(createCoffeeDTO);
     }
 
     /**
@@ -42,8 +46,8 @@ export class CoffeesController {
      *  Patch it's use to update partial
      */
     @Patch(":id")
-    update(@Param("id") id: string, @Body() body) {
-        return this.coffeeService.update(id, body);
+    update(@Param("id") id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
+        return this.coffeeService.update(id, updateCoffeeDto);
     }
 
     /**
