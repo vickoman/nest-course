@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Body, Post, Patch, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Body, Post, Patch, Delete, Query, Put } from '@nestjs/common';
 import { CoffeeService } from 'src/coffees/coffees.service';
 import { CreateCoffeeDTO } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -25,8 +25,9 @@ export class CoffeesController {
      * Get Cooffee by id
      */
     @Get(":id")
-    findOne(@Param('id') id: string ) {
-        return this.coffeeService.findOne(id);
+    findOne(@Param('id') id: number ) {
+        console.log(typeof id);
+        return this.coffeeService.findOne('' + id);
     }
 
     /**
@@ -36,6 +37,7 @@ export class CoffeesController {
      */
     @Post()
     create(@Body() createCoffeeDTO: CreateCoffeeDTO) {
+        console.log(createCoffeeDTO instanceof CreateCoffeeDTO);
         return this.coffeeService.create(createCoffeeDTO);
     }
 
@@ -58,5 +60,10 @@ export class CoffeesController {
     @Delete(":id")
     remove(@Param("id") id: string) {
         return this.coffeeService.remove(id);
+    }
+
+    @Put()
+    putTest() {
+
     }
 }
