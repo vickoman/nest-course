@@ -3,9 +3,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
-  imports: [CoffeesModule, TypeOrmModule.forRoot({
+  imports: [CoffeesModule,
+    GraphQLModule.forRoot({
+      debug: false,
+      playground: false,
+      typePaths: ["./src/schema.graphql"],
+      definitions: {
+        path: `${
+          process.env.ENVIRONMENT === "dev"
+            ? "./src/infrastructure/graphql/"
+            : "/tmp/"
+        }portal-events.ts`,
+        outputAs: "class",
+      },
+      introspection: true,
+    }),
+    TypeOrmModule.forRoot({
     type: "postgres",
     host: "localhost",
     port: 5432,

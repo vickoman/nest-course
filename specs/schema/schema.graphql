@@ -1,0 +1,18 @@
+scalar Date
+
+type Flavors {
+    id: ID!
+    name: String!
+}
+
+type Coffee {
+    id: ID!
+    title: String!
+    description: String
+    brand: String!
+    flavors: [Flavors!]
+}
+
+type Query {
+    getCoffees(skip: Int = 0, take: Int = 25): [Coffee!]!
+}
